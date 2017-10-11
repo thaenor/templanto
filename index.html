@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset="UTF-8">
+
+	<title>Hello World!</title>
+	<style> ::selection { background: white; /* WebKit/Blink Browsers */ } </style>
+	<link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+	<h1>Hello World!</h1>
+	<!-- All of the Node.js APIs are available in this renderer process. -->
+	We are using Node.js
+	<script>
+	document.write(process.versions.node)
+	</script>, Chromium
+	<script>
+	document.write(process.versions.chrome)
+	</script>, and Electron
+	<script>
+	document.write(process.versions.electron)
+	</script>.
+
+	<div class="card">
+		<p>Read excel file:</p>
+		<input id="btn-read-file" type="button" value="select a file">
+	</div>
+
+
+	<div class="spacing">
+		Or
+	</div>
+
+
+	<div class="card">
+		<p>Read folder:</p>
+		<input id="btn-read-dir" type="file" webkitdirectory/>
+	</div>
+
+	<div>
+		<ul id="folderTree">
+		</ul>
+	</div>
+
+
+	<h1><a id="Translation_engine_0"></a>Translation engine</h1>
+
+
+	<h4><a id="working_title_1"></a>working title</h4>
+
+
+	<p>This translation engine uses mustache render engine to generate several HTML files based on a template.<br>
+	It relies on a specific folder structure, as it reads from that and outputs the files to the /render folder.</p>
+
+
+	<h2><a id="Before_we_begin_6"></a>Before we begin</h2>
+
+
+	<ul>
+		<li>The excel files with translations must be in the “translation_source” folder and follow the format (case sensitive).<br>
+		&nbsp;</li>
+	</ul>
+
+	<pre><code>| key   | value |
+    | HELLO | olá   |
+    | BODY  | texto |
+    </code></pre>
+
+	<p>&nbsp;</p>
+
+
+	<ul>
+		<li>this project was tested on the LTS version of node (V.6.11.0, npm v.4.6.1) - it should run on newer versions though.</li>
+	</ul>
+
+
+	<h2><a id="How_to_use_19"></a>How to use</h2>
+
+
+	<ul>
+		<li>Inside the “templates” folder, create a folder with the same name as the excel sheet.</li>
+
+
+		<li>Inside that folder create your template</li>
+
+
+		<li>
+			<ul>
+				<li>the template must be a .Mustache file - these are normal files with {{ this-kind-of-notation }}</li>
+			</ul>
+		</li>
+
+
+		<li>
+			<ul>
+				<li>the keys must be the same referenced in your excel spreadsheet</li>
+			</ul>
+		</li>
+
+
+		<li>open terminal and go to the project folder</li>
+
+
+		<li>run <code>npm start</code></li>
+	</ul>
+
+
+	<p>the result should look something like this:<br>
+	&nbsp;</p>
+
+	<pre><code>./templates
+    ---- /my-page-template
+    ---- ---- /translations
+    ---- ---- ---- /EN.JSON
+    ---- ---- ---- /FR.JSON
+    ---- ---- ---- /DE.JSON (... you should have as many JSON files as the sheets in the excel)
+    ---- ---- my-page-template.mustache
+    /render
+    ---- /my-page-template
+    ---- ---- my-page-template-EN.html
+    ---- ---- my-page-template-FR.html
+    ---- ---- my-page-template-DE.html
+    </code></pre>
+
+	<p>&nbsp;</p>
+
+
+	<h3><a id="example_of_a_template_file_47"></a>example of a template file</h3>
+
+	<pre><code>&lt;!DOCTYPE HTML&gt;
+        &lt;html&gt;
+        &lt;body&gt;
+            &lt;h1&gt;Hello {{name}}!&lt;/h1&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+    </code></pre>
+
+	<p>in this example {{name}} will be replaced with the translation.</p>
+    <p>use {{{name}}} if you want to keep literal code in the translation.</p>
+	<script>
+	     // You can also require other files to run in this process
+	     require('./renderer.js')
+	</script>
+</body>
+</html>
