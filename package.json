@@ -7,7 +7,7 @@
   "main": "main.js",
   "scripts": {
     "postinstall": "install-app-deps",
-    "start": "electron ."
+    "start": "electron .",
     "pack": "build --dir",
     "dist": "build"
   },
@@ -47,8 +47,6 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
   "dependencies": {
     "mustache": "^2.3.0",
     "xlsx": "^0.10.8"
