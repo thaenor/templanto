@@ -1,12 +1,45 @@
 {
   "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "Template translation generation tool",
+  "author": "Francisco Santos <francisco.m.santos@icloud.com>",
   "main": "main.js",
   "scripts": {
+    "postinstall": "install-app-deps",
     "start": "electron ."
+    "pack": "build --dir",
+    "dist": "build"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "build": {
+    "appId": "yourappid",
+    "category": "your.app.category.type",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "squirrel",
+      "icon": "build/icon.ico"
+    }
+  },
+  "repository": "https://github.com/thaenor/templanto",
   "keywords": [
     "Electron",
     "quick",
@@ -22,6 +55,7 @@
   },
   "devDependencies": {
     "electron": "~1.7.8",
+    "electron-builder": "^19.36.0",
     "electron-reload": "^1.2.2"
   }
 }
