@@ -55,6 +55,7 @@ ipcRenderer.on('file-read-ok', (event, file, fData) => {
   document.getElementById('notification-area').classList.remove('ninja');
   //TODO: spawn a new window (?) and show cool data
   //TODO: aditionally find some helper packages to display this or whatever, I'm tired!
+  //TODO: make a clear notification button
 });
 
 ipcRenderer.on('file-read-bad', (event, arg) => {
