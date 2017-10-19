@@ -3,8 +3,8 @@
 // All of the Node.js APIs are available in this process.
 const fs = require('fs');
 const {dialog} = require('electron').remote;
-const renderEngine = require('./translationEngine.js');
-
+const renderEngine = require('./translationEngine.js').baz;
+console.log(renderEngine);
 document.getElementById('btn-read-file').addEventListener('click', () => {
   dialog.showOpenDialog((fileNames) => {
     if(fileNames === undefined){
