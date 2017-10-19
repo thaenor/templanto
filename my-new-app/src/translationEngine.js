@@ -17,8 +17,7 @@ export function validateXLSx(file) {
       console.dir(output);
     }
   } catch (e) {
-    alert(`oops, I can't read this spreadsheet, are you sure it has valid translations`);
-    return false;
+    throw e;
   }
   return true;
 }
@@ -39,7 +38,7 @@ export function getXLSxData(file) {
       return final;
     }
   } catch (e) {
-    alert(`oops, I can't read this spreadsheet, are you sure it has valid translations`);
+    console.error(`oops, I can't read this spreadsheet, are you sure it has valid translations - ${e}`);
   }
 }
 

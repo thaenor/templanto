@@ -1,11 +1,23 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  ipcMain
+} from 'electron';
+import {
+  main,
+  validateXLSx,
+  getXLSxData,
+  generateTranslations,
+  render,
+} from './translationEngine';
+import fs from 'fs';
 
-/**** remove this when we go to prod ***/
+// remove this when we go to prod
 const path = require('path')
 require('electron-reload')(__dirname, {
   electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
 });
-/******  also npm uninstall electron-reload --save  ******/
+// also npm uninstall electron-reload --save
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
@@ -62,3 +74,18 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+ipcMain.on('init-render', (event, arg) => {
+  const dir = fs.readdirSync(arg);
+  dir.map(e => {
+    if (e !== '.DS_Store') {
+      const fPath = `${arg}/${e}`;
+      const r = getXLSxData(fPath);
+
+      if (r) {
+        event.sender.send('file-read-ok', e, r);
+      } else {
+        event.sender.send('file-read-bad', e);
+      }
+    }
+  })
+});

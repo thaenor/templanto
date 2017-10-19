@@ -2,21 +2,13 @@
 // be executed in the renderer process for that window.
 // All of the Node.js APIs are available in this process.
 import fs from 'fs';
-import {main, validateXLSx, getXLSxData, generateTranslations, render, } from './translationEngine';
-const {dialog} = require('electron').remote;
-//const ipc = require('electron').ipcRenderer
+import {ipcRenderer, remote, dialog} from 'electron';
 
 let state = {};
-// document.getElementById('btn-read-file').addEventListener('click', () => {
-//   dialog.showOpenDialog((fileNames) => {
-//     if(fileNames === undefined){
-//       return;
-//     } else {
-//       let d = fs.readFileSync(fileNames[0],"utf8");
-//       console.log(d);
-//     }
-//   });
-// }, false);
+
+setTimeout(function () {
+  ipcRenderer.send('init-render', `/Users/francisco.santos/Documents/work/translator-tool/translation_engine/translation_source`);
+}, 2000);
 
 document.getElementById('btn-read-dir').addEventListener('change', (evt) => {
     const target = evt.target.files[0].path;
@@ -27,13 +19,7 @@ document.getElementById('btn-read-dir').addEventListener('change', (evt) => {
 
 function attachLateEvent(){
   document.getElementById('initiateRender').addEventListener('click', (evt) => {
-    const dir = fs.readdirSync(`${state.projectFolder}/translation_source`);
-    const currentDir = `${state.projectFolder}/translation_source/`;
-    dir.map( e => {
-      if(validateXLSx(`${currentDir}${e}`)){
-        console.log(getXLSxData(`${currentDir}${e}`));
-      }
-    })
+    ipcRenderer.send('init-render', `${state.projectFolder}/translation_source`);
   }, false);
 }
 
@@ -62,3 +48,28 @@ function checkfolderStruct(dir) {
     });
     return (hasSource && hasTemplates);
 }
+
+// Listen for async-reply message from main process
+ipcRenderer.on('file-read-ok', (event, file, fData) => {
+  document.getElementById('comm').innerHTML += `<strong>file ${file} read sucessfully</strong><hr/>`;
+  document.getElementById('notification-area').classList.remove('ninja');
+  //TODO: spawn a new window (?) and show cool data
+  //TODO: aditionally find some helper packages to display this or whatever, I'm tired!
+});
+
+ipcRenderer.on('file-read-bad', (event, arg) => {
+  document.getElementById('comm').innerHTML += `<strong>file ${arg} read seems to have a problem</strong><hr/>`;
+  document.getElementById('notification-area').classList.remove('ninja');
+});
+
+// in case I want that validate file feature
+// document.getElementById('btn-read-file').addEventListener('click', () => {
+//   dialog.showOpenDialog((fileNames) => {
+//     if(fileNames === undefined){
+//       return;
+//     } else {
+//       let d = fs.readFileSync(fileNames[0],"utf8");
+//       console.log(d);
+//     }
+//   });
+// }, false);
