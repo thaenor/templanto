@@ -6,9 +6,9 @@ import {ipcRenderer, remote, dialog} from 'electron';
 
 let state = {};
 
-setTimeout(function () {
-  ipcRenderer.send('init-render', `/Users/francisco.santos/Documents/work/translator-tool/translation_engine/translation_source`);
-}, 2000);
+// setTimeout(function () {
+//   ipcRenderer.send('init-render', `/Users/francisco.santos/Documents/work/translator-tool/translation_engine/translation_source`);
+// }, 2000);
 
 document.getElementById('btn-read-dir').addEventListener('change', (evt) => {
     const target = evt.target.files[0].path;
@@ -16,6 +16,15 @@ document.getElementById('btn-read-dir').addEventListener('change', (evt) => {
     const dir = fs.readdirSync(evt.target.files[0].path);
     displayFolderTree(dir);
 }, false);
+
+document.getElementById('btn-create-project').addEventListener('change', (evt) => {
+  const target = evt.target.files[0].path;
+  ipcRenderer.send('project-bootstrap', target);
+});
+
+ipcRenderer.on('project-created', (event,arg) => {
+  document.getElementById("project-creation-feedback").innerHTML += `<p>Project created at ${arg}</p>`
+});
 
 function attachLateEvent(){
   document.getElementById('initiateRender').addEventListener('click', (evt) => {

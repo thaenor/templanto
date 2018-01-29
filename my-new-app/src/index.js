@@ -1,7 +1,7 @@
 import {
   app,
   BrowserWindow,
-  ipcMain
+  ipcMain,
 } from 'electron';
 import {
   main,
@@ -13,9 +13,9 @@ import {
 import fs from 'fs';
 
 // remove this when we go to prod
-const path = require('path')
+const path = require('path');
 require('electron-reload')(__dirname, {
-  electron: path.join(__dirname, 'node_modules', '.bin', 'electron')
+  electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
 });
 // also npm uninstall electron-reload --save
 
@@ -76,7 +76,7 @@ app.on('activate', () => {
 // code. You can also put them in separate files and import them here.
 ipcMain.on('init-render', (event, arg) => {
   const dir = fs.readdirSync(arg);
-  dir.map(e => {
+  dir.map((e) => {
     if (e !== '.DS_Store') {
       const fPath = `${arg}/${e}`;
       const r = getXLSxData(fPath);
@@ -87,5 +87,13 @@ ipcMain.on('init-render', (event, arg) => {
         event.sender.send('file-read-bad', e);
       }
     }
-  })
+  });
+});
+
+ipcMain.on('project-bootstrap', (event, arg) => {
+  const folderName = `${arg}/templates`;
+  fs.mkdirSync(folderName);
+  fs.mkdirSync(`${folderName}/my-page-template`);
+  fs.mkdirSync(`${folderName}/my-page-template/translations`);
+  event.sender.send('project-created', event, folderName);
 });
