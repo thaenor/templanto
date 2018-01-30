@@ -14,9 +14,9 @@ import fs from 'fs';
 
 // remove this when we go to prod
 const path = require('path');
-require('electron-reload')(__dirname, {
-  electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
-});
+// require('electron-reload')(__dirname, {
+//   electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+// });
 // also npm uninstall electron-reload --save
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
