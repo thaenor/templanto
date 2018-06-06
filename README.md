@@ -1,5 +1,7 @@
 # Templanto
 
+# Project discontinued... 
+
 ## The name
 
 Comes from Template and Esperanto, because this is meant to be a universal tool for translations.
